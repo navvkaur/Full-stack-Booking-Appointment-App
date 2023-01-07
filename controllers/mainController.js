@@ -62,14 +62,17 @@ exports.editUser = async (req, res, next) => {
         const updatedemail = req.body.email;
         const id = req.params.id;
 
-        Details.findAll({where:{id:id}}).then((detail=>{
-            detail.id = id;
-            detail.name = updatedname,
-            detail.email=updatedemail,
-            detail.phn=updatedphone
-            detail.save();
-
-        }))   
+         console.log(req.params);
+         console.log('abc');
+       let user = await Details.update(
+            {
+               name : updatedname,
+                email:updatedemail,
+                phn:updatedphone
+            },
+            {where:{id:id}})
+            console.log("user",user);
+  res.status(201).json({user});
     }catch(err){
         console.log(err);
         res.status(500).json({error : err})
